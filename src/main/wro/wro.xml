@@ -3,6 +3,7 @@
         <css>webjar:bootstrap/@bootstrap.version@/less/bootstrap.less</css>
         <css>file:@project.basedir@/src/main/wro/main.less</css>
         <js>webjar:jquery/@jquery.version@/jquery.min.js</js>
+        <!--In order to use the "ngRoute" module, we need to add a line to the "wro.xml" configuration that builds the static assets (in "src/main/wro"):-->
         <js>webjar:angularjs/@angularjs.version@/angular.min.js</js>
         <js>webjar:angularjs/@angularjs.version@/angular-route.min.js</js>
         <js>webjar:angularjs/@angularjs.version@/angular-cookies.min.js</js>

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("account")
+@RequestMapping("/accounts")
 public class AccountController {
     @Autowired
     private AccountService service;
