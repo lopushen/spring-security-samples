@@ -1,7 +1,7 @@
 package com.lopushen.rest;
 
-import com.lopushen.domain.User;
-import com.lopushen.service.UserService;
+import com.lopushen.domain.Person;
+import com.lopushen.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,35 +13,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/person")
+public class PersonController {
     @Autowired
-    private UserService service;
+    private PersonService service;
 
     @RequestMapping(method = RequestMethod.POST)
-    public void createUser(@RequestBody User user) {
-        service.createUser(user);
+    public void createPerson(@RequestBody Person person) {
+        service.createPerson(person);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public User getUser(@PathVariable Long id) {
-        return service.getUser(id);
+    public Person getPerson(@PathVariable Long id) {
+        return service.getPerson(id);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
-    public void updateUser(@RequestBody User user, @PathVariable Long id) {
-        service.updateUser(user, id);
+    public void updatePerson(@RequestBody Person person, @PathVariable Long id) {
+        service.updatePerson(person, id);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/all")
-    public List<User> getAllUsers() {
-        List<User> result = new ArrayList<>();
-        service.getAllUsers().forEach(result::add);
+    public List<Person> getAllPersons() {
+        List<Person> result = new ArrayList<>();
+        service.getAllPeople().forEach(result::add);
         return result;
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        service.deleteUser(id);
+    public void deletePerson(@PathVariable Long id) {
+        service.deletePerson(id);
     }
 }
