@@ -13,11 +13,11 @@ CREATE TABLE `roles` (
 
 INSERT INTO `users` (`username`, `password`, `enabled`)
 VALUES
-	('ievgeniii', '21111991', 1);
+	('ievgenii', '21111991', 1);
 
 INSERT INTO `roles` (`username`, `role`)
 VALUES
-	('ievgeniii', 'User'),
-	('ievgeniii', 'Admin');
+	('ievgenii', 'User'),
+	('ievgenii', 'Admin');
 
 commit;
