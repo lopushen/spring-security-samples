@@ -2,6 +2,9 @@ CREATE TABLE `users` (
   `username` varchar(20) NOT NULL DEFAULT '',
   `password` varchar(20) NOT NULL DEFAULT '',
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `account_non_expired` tinyint(1) NOT NULL DEFAULT '1',
+  `credentials_non_expired` tinyint(1) NOT NULL DEFAULT '1',
+  `account_non_locked` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -17,7 +20,7 @@ VALUES
 
 INSERT INTO `roles` (`username`, `role`)
 VALUES
-	('ievgenii', 'User'),
-	('ievgenii', 'Admin');
+	('ievgenii', 'ROLE_USER'),
+	('ievgenii', 'ROLE_ADMIN');
 
 commit;

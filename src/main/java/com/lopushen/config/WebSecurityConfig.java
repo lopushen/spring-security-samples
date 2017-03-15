@@ -1,5 +1,6 @@
 package com.lopushen.config;
 
+import com.lopushen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
+import org.springframework.social.connect.web.ProviderSignInController;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
@@ -25,6 +31,18 @@ import java.util.Arrays;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ConnectionFactoryLocator connectionFactoryLocator;
+
+    @Autowired
+    private UsersConnectionRepository usersConnectionRepository;
+
+    @Autowired
+    private FacebookConnectionSignup facebookConnectionSignup;
 
     private static final String USERS_QUERY = "select username,password,enabled from users where username=?";
     private static final String ROLES_QUERY = "select username,role from roles where username=?";
@@ -41,6 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordCompare()
                 .passwordEncoder(new LdapShaPasswordEncoder())
                 .passwordAttribute("userPassword");
+
+        auth.userDetailsService(userService);
     }
 
     @Bean
@@ -67,5 +87,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().and().authorizeRequests().antMatchers("/index.html", "/home.html", "/login.html", "/")
                 .permitAll().anyRequest().authenticated().and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+    }
+
+    @Bean
+    public ProviderSignInController providerSignInController() {
+        ((JdbcUsersConnectionRepository) usersConnectionRepository)
+                .setConnectionSignUp(facebookConnectionSignup);
+
+        return new ProviderSignInController(
+                connectionFactoryLocator,
+                usersConnectionRepository,
+                new FacebookSignInAdapter());
     }
 }
