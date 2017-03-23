@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/resource")
 public class ResourceController {
-    @RequestMapping("/resource")
+
     public Map<String, Object> home() {
-        @LocalVar
         Map<String, Object> model = new HashMap<>();
         model.put("id", UUID.randomUUID().toString());
         model.put("content", "Hello World");
